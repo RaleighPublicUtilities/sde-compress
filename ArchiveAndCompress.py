@@ -13,18 +13,18 @@ def Archive():
     arcpy.env.workspace = "Database Connections\\RPUD.sde" # Need to change this to work where it runs
 
     #list of datasets to archive
-    datasetList = ["RPUD.EVENTS","RPUD.ProjectTracking","RPUD.PU_Boundaries","RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCCTV","RPUD.SewerCollectionNetwork","RPUD.WaterDistributionNetwork"]
+    datasetList = ["RPUD.EVENTS","RPUD.ProjectTracking","RPUD.PU_Boundaries","RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork","RPUD.WaterDistributionNetwork"]
 
     #date string for geodb name
     dateString = datetime.datetime.now().strftime("%Y%m%d")
 
     #create file geodb
-    arcpy.CreateFileGDB_management("//corfile/Public Utilities/PU_GIS/Archive/", "RPUD" + dateString+ ".gdb") #will security settings on this directory prevent copy? If so go \\corfile\Common
+    arcpy.CreateFileGDB_management("//corfile/Public_Utilities_NS/5215_Capital_Improvement_Projects/636_Geographic_Info_System/Archive/", "RPUD" + dateString+ ".gdb") #will security settings on this directory prevent copy? If so go \\corfile\Common
 
     #copy datasets to Archive
     for dataset in datasetList:
         print "archiving " + dataset
-        arcpy.Copy_management(dataset, "//corfile/Public Utilities/PU_GIS/Archive/" + "RPUD" + dateString+ ".gdb/" + dataset ) #will security settings on this directory prevent copy? If so go \\corfile\Common
+        arcpy.Copy_management(dataset, "//corfile/Public_Utilities_NS/5215_Capital_Improvement_Projects/636_Geographic_Info_System/Archive/" + "RPUD" + dateString+ ".gdb/" + dataset ) #will security settings on this directory prevent copy? If so go \\corfile\Common
     print "Archiving complete"
 
 Archive()
@@ -71,7 +71,7 @@ def Compress():
     for each in removeList:
       dataList.remove(each)
 
-    versionList = ['MMAZANEK_VERSION', 'LRICKER_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'CWHITE_VERSION', 'JSORRELL_VERSION', 'VALVECREWS_VERSION']
+    versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'CWHITE_VERSION', 'JSORRELL_VERSION', 'EGREEN_VERSION']
 
     #run Rebuild Indexes tool
     arcpy.RebuildIndexes_management(sde, "SYSTEM", dataList, "ALL")
