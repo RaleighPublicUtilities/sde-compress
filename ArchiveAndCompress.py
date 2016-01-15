@@ -13,7 +13,7 @@ def Archive():
     arcpy.env.workspace = "Database Connections\\RPUD.sde" # Need to change this to work where it runs
 
     #list of datasets to archive
-    datasetList = ["RPUD.EVENTS","RPUD.ProjectTracking","RPUD.PU_Boundaries","RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork","RPUD.WaterDistributionNetwork"]
+    datasetList = ["RPUD.EVENTS","RPUD.ProjectTracking","RPUD.PU_Boundaries","RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork","RPUD.WaterDistributionNetwork", "RPUD.Water_Distribution_Features"]
 
     #date string for geodb name
     dateString = datetime.datetime.now().strftime("%Y%m%d")
@@ -71,7 +71,7 @@ def Compress():
     for each in removeList:
       dataList.remove(each)
 
-    versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'CWHITE_VERSION', 'JSORRELL_VERSION', 'EGREEN_VERSION']
+    versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'ABAILEY_VERSION', 'JSORRELL_VERSION', 'EGREEN_VERSION']
 
     #run Rebuild Indexes tool
     arcpy.RebuildIndexes_management(sde, "SYSTEM", dataList, "ALL")

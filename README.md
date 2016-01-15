@@ -1,2 +1,2 @@
 # sde-compress
-Weekly job that compresses data.
+Occasional job that compresses data.
