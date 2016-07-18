@@ -16,18 +16,17 @@ arcpy.env.overwriteOutput = True
 def Archive():
 
     #set workspace
-<<<<<<< HEAD
     arcpy.env.workspace = "Database Connections\\RPUD_TESTDB.sde" # Need to change this to work where it runs
 
     #list of datasets to archive
     datasetList = ["RPUD.EVENTS", "RPUD.Locates", "RPUD.ProjectTracking", "RPUD.PU_Boundaries", "RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork", "RPUD.SewerInspectionTest", "RPUD.WaterDistributionNetwork", "RPUD.Water_Distribution_Features"]
-=======
+
     arcpy.env.workspace = "Database Connections\\RPUD_TESTDB.sde"
     print "workspace set"
     #list of datasets to archive
     datasetList = ["RPUD.EVENTS","RPUD.Locates","RPUD.ProjectTracking","RPUD.PU_Boundaries","RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork","RPUD.WaterDistributionNetwork", "RPUD.Water_Distribution_Features"]
     print "dataset list compiled"
->>>>>>> b7ede50da66ccb6f3fb30fa9725c5e86ee4a921a
+
     #date string for geodb name
     dateString = datetime.datetime.now().strftime("%Y%m%d")
     print "date string created"
@@ -84,10 +83,8 @@ def Compress():
     for each in removeList:
       dataList.remove(each)
 
-<<<<<<< HEAD
-=======
-    versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'JLI_VERSION', 'JSORRELL_VERSION', 'MOBILE_EDIT_VERSION']
->>>>>>> b7ede50da66ccb6f3fb30fa9725c5e86ee4a921a
+
+    versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'JLI_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'JLI_VERSION', 'JSORRELL_VERSION', 'MOBILE_EDIT_VERSION']
 
     #run Rebuild Indexes tool
     arcpy.RebuildIndexes_management(sde, "SYSTEM", dataList, "ALL")
