@@ -10,11 +10,10 @@ arcpy.env.overwriteOutput = True
 def Archive():
 
     #set workspace
-    arcpy.env.workspace = "Database Connections\\RPUD.sde" # Need to change this to work where it runs
+    arcpy.env.workspace = "Database Connections\\RPUD_TESTDB.sde" # Need to change this to work where it runs
 
     #list of datasets to archive
-    datasetList = ["RPUD.EVENTS","RPUD.ProjectTracking","RPUD.PU_Boundaries","RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork","RPUD.WaterDistributionNetwork", "RPUD.Water_Distribution_Features"]
-
+    datasetList = ["RPUD.EVENTS", "RPUD.Locates", "RPUD.ProjectTracking", "RPUD.PU_Boundaries", "RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork", "RPUD.SewerInspectionTest", "RPUD.WaterDistributionNetwork", "RPUD.Water_Distribution_Features"]
     #date string for geodb name
     dateString = datetime.datetime.now().strftime("%Y%m%d")
 
@@ -34,7 +33,7 @@ Archive()
 def Compress():
     #set workspace
     sde = "Database Connections/sdeadmin.sde"
-    RPUDwkspace = "Database Connections/RPUD.sde"
+    RPUDwkspace = "Database Connections/RPUD_TESTDB.sde"
     arcpy.env.workspace = sde
 
 
@@ -45,10 +44,10 @@ def Compress():
 
     # get time for naming log file
     ReconcileTime = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")
-    filePath = "C:/Users/stearnsc/Junk/Reconcile{0}.txt".format(ReconcileTime)
+    filePath = "//corfile/Public_Utilities_NS/5215_Capital_Improvement_Projects/636_Geographic_Info_System/SDECompressLog/Reconcile{0}.txt".format(ReconcileTime)
 
     #reconcile, post and delete versions
-    arcpy.ReconcileVersions_management(RPUDwkspace,"ALL_VERSIONS","SDE.DEFAULT",versionList,"LOCK_ACQUIRED","NO_ABORT","BY_OBJECT","FAVOR_TARGET_VERSION","POST","DELETE_VERSION",filePath)
+    arcpy.ReconcileVersions_management(RPUDwkspace,"ALL_VERSIONS","SDE.DEFAULT",versionList,"LOCK_ACQUIRED","NO_ABORT","BY_ATTRIBUTE","FAVOR_TARGET_VERSION","POST","DELETE_VERSION", filePath)
     print "Reconcile, Post and Delete is Complete"
 
 
@@ -71,7 +70,6 @@ def Compress():
     for each in removeList:
       dataList.remove(each)
 
-    versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'ABAILEY_VERSION', 'JSORRELL_VERSION', 'EGREEN_VERSION']
 
     #run Rebuild Indexes tool
     arcpy.RebuildIndexes_management(sde, "SYSTEM", dataList, "ALL")
@@ -82,11 +80,19 @@ def Compress():
     print "Analyze Complete"
 
 
-
-    #re-create versions
+    #Re-create versions#
+        #this versionlist needs to be updated everytime new version created or version deleted
+    versionList = ['JSORRELL_VERSION', 'MOBILE_EDIT_VERSION', 'MMAZANEK_VERSION', 'SKAUFMAN_VERSION', 'MKEMP_VERSION', 'DTISKA_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION']
+    
     print "Recreating Versions"
     for version in versionList:
       arcpy.CreateVersion_management(RPUDwkspace, "SDE.DEFAULT", version, "PUBLIC")
+      print version + "has created."
+
+    #list current versions
+    versionList = [version.name for version in arcpy.da.ListVersions(RPUDwkspace) if version.isOwner and version.name != 'SDE.DEFAULT']
+    print "These are the current versions: %s" % versionList
+
     print "Versions re-created. Go get a beer."
 
 Compress()
