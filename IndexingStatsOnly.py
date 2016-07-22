@@ -71,7 +71,7 @@ def Compress():
     for each in removeList:
       dataList.remove(each)
 
-    versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'ABAILEY_VERSION', 'JSORRELL_VERSION', 'EGREEN_VERSION']
+    #versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'ABAILEY_VERSION', 'JSORRELL_VERSION', 'EGREEN_VERSION']
 
     #run Rebuild Indexes tool
     arcpy.RebuildIndexes_management(sde, "SYSTEM", dataList, "ALL")

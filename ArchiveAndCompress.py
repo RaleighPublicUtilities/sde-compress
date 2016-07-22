@@ -84,7 +84,7 @@ def Compress():
       dataList.remove(each)
 
 
-    versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'JLI_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION', 'JLI_VERSION', 'JSORRELL_VERSION', 'MOBILE_EDIT_VERSION']
+    #versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'JKELLER_VERSION', 'JLI_VERSION', 'JSORRELL_VERSION', 'MOBILE_EDIT_VERSION']
 
     #run Rebuild Indexes tool
     arcpy.RebuildIndexes_management(sde, "SYSTEM", dataList, "ALL")
@@ -97,7 +97,7 @@ def Compress():
 
     #Re-create versions#
         #this versionlist needs to be updated everytime new version created or version deleted
-    versionList = ['JSORRELL_VERSION', 'MOBILE_EDIT_VERSION', 'MMAZANEK_VERSION', 'SKAUFMAN_VERSION', 'MKEMP_VERSION', 'DTISKA_VERSION', 'CSTEARNS_VERSION', 'JKELLER_VERSION']
+    versionList = ['JSORRELL_VERSION', 'MOBILE_EDIT_VERSION', 'MMAZANEK_VERSION', 'SKAUFMAN_VERSION', 'DTISKA_VERSION', 'JLI_VERSION', 'JKELLER_VERSION']
     
     print "Recreating Versions"
     for version in versionList:
