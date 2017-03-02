@@ -1,5 +1,6 @@
 # ArchiveAndCompress.py
 # Archive and Compress by Corey White and Carl Stearns. Raleigh Public Utilities GIS 2014/08/25
+# Updated by Zheng Li 2016/10/20
 ###########################################################################################################
 # Import arcpy, os, datetime modules
 import arcpy, os, datetime, sys
@@ -16,17 +17,14 @@ arcpy.env.overwriteOutput = True
 def Archive():
 
     #set workspace
-    arcpy.env.workspace = "Database Connections\\RPUD_TESTDB.sde" # Need to change this to work where it runs
+    arcpy.env.workspace = "Database Connections/RPUD_TESTDB.sde" # Need to change this to work where it runs
+    print "workspace set"
 
     #list of datasets to archive
     datasetList = ["RPUD.EVENTS", "RPUD.Locates", "RPUD.ProjectTracking", "RPUD.PU_Boundaries", "RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork", "RPUD.SewerInspectionTest", "RPUD.WaterDistributionNetwork", "RPUD.Water_Distribution_Features"]
-
-    arcpy.env.workspace = "Database Connections\\RPUD_TESTDB.sde"
-    print "workspace set"
-    #list of datasets to archive
-    datasetList = ["RPUD.EVENTS","RPUD.Locates","RPUD.ProjectTracking","RPUD.PU_Boundaries","RPUD.ReclaimedWaterDistributionNetwork","RPUD.Sewer_Features","RPUD.SewerCollectionNetwork","RPUD.WaterDistributionNetwork", "RPUD.Water_Distribution_Features"]
+    # datasetList = ["RPUD.SewerCollectionNetwork"]
     print "dataset list compiled"
-
+   
     #date string for geodb name
     dateString = datetime.datetime.now().strftime("%Y%m%d")
     print "date string created"
@@ -39,7 +37,7 @@ def Archive():
         arcpy.Copy_management(dataset, "//corfile/Public_Utilities_NS/5215_Capital_Improvement_Projects/636_Geographic_Info_System/Archive/" + "RPUD" + dateString+ ".gdb/" + dataset ) 
     print "Archiving complete"
 
-Archive()
+# Archive()
 
 ###################################################################################################################################################################################################################################
 
@@ -66,7 +64,7 @@ def Compress():
 
     # perform compression
     print "Starting compression"
-    arcpy.Compress_management("Database Connections\\sdeadmin.sde")
+    arcpy.Compress_management(sde)
     print "Compression is Complete"
 
     #change workspace to RPUD
@@ -83,9 +81,6 @@ def Compress():
     for each in removeList:
       dataList.remove(each)
 
-
-    #versionList = ['MMAZANEK_VERSION', 'DTISKA_VERSION', 'SKAUFMAN_VERSION', 'JKELLER_VERSION', 'JLI_VERSION', 'JSORRELL_VERSION', 'MOBILE_EDIT_VERSION']
-
     #run Rebuild Indexes tool
     arcpy.RebuildIndexes_management(sde, "SYSTEM", dataList, "ALL")
     print 'Rebuild Indexes Complete'
@@ -97,12 +92,12 @@ def Compress():
 
     #Re-create versions#
         #this versionlist needs to be updated everytime new version created or version deleted
-    versionList = ['JSORRELL_VERSION', 'MOBILE_EDIT_VERSION', 'MMAZANEK_VERSION', 'SKAUFMAN_VERSION', 'DTISKA_VERSION', 'JLI_VERSION', 'JKELLER_VERSION']
+    versionList = ['JSORRELL_VERSION', 'MOBILE_EDIT_VERSION', 'MMAZANEK_VERSION', 'SKAUFMAN_VERSION', 'DTISKA_VERSION', 'JLI_VERSION', 'JKELLER_VERSION', 'LKIMMEL_VERSION', 'AHAYES_VERSION']
     
     print "Recreating Versions"
     for version in versionList:
       arcpy.CreateVersion_management(RPUDwkspace, "SDE.DEFAULT", version, "PUBLIC")
-      print version + "has created."
+      print version + " has created."
 
     #list current versions
     versionList = [version.name for version in arcpy.da.ListVersions(RPUDwkspace) if version.isOwner and version.name != 'SDE.DEFAULT']
@@ -110,6 +105,6 @@ def Compress():
 
     print "Versions re-created. Go get a beer."
 
-Compress()
+# Compress()
 
 ###################################################################################################################################################################################################################################
